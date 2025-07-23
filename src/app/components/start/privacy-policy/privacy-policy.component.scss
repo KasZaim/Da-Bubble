@@ -1,0 +1,45 @@
+@import "../legal-notice/legal-notice.component.scss";
+
+app-start {
+    ::ng-deep::ng-deep .content {
+        width: calc(48.4375rem - 3.5rem - 3.5rem);
+        height: calc(41.8125rem - 3rem - 3rem);
+        overflow: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    app-start {
+        ::ng-deep::ng-deep .content {
+            width: calc(92.5vw - 1.25rem - 1.25rem);
+            height: calc(75vh - 2.1875rem - 2.1875rem);
+            padding: 2.1875rem 1.25rem;
+            gap: 1.5rem;
+
+            > div {
+                gap: 0.75rem;
+            }
+        }
+    }
+
+    .goBack {
+        left: 0;
+        top: 0;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+
+    p {
+        font-size: 1.0625rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+}
