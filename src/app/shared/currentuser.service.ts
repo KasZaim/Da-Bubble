@@ -20,6 +20,7 @@ export class CurrentuserService {
 
     constructor(private firestore: FirestoreService) {
         this.firestore.currentUser$.subscribe((uid) => {
+            console.log('CurrentuserService: User UID changed to:', uid);
             this.currentUserUid = uid;
             this.subCurrentUser();
         });
@@ -43,7 +44,12 @@ export class CurrentuserService {
             this.isLoggedIn = true;
             let ref = doc(firestore, "users", this.currentUserUid);
             onSnapshot(ref, (doc) => {
-                this.currentUser = this.setCurrentUserObj(doc.data(), doc.id);
+                if (doc.exists()) {
+                    this.currentUser = this.setCurrentUserObj(doc.data(), doc.id);
+                } else {
+                    console.warn(`User document with ID ${this.currentUserUid} does not exist`);
+                    this.currentUser = this.setCurrentUserObj(null, this.currentUserUid || "");
+                }
             });
         } else {
             this.isLoggedIn = false;
@@ -52,6 +58,16 @@ export class CurrentuserService {
 
 
     setCurrentUserObj(obj: any, id: string): UsersList {
+        if (!obj) {
+            console.warn('setCurrentUserObj: obj is undefined or null');
+            return {
+                id: id || "",
+                name: "",
+                email: "",
+                avatar: "",
+                online: false,
+            };
+        }
         return {
             id: id || "",
             name: obj.name || "",
